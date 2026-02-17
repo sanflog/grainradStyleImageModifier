@@ -142,7 +142,6 @@ label.ghost-btn input {
   display: grid;
   gap: 10px;
   background: rgba(4, 6, 10, 0.52);
-  backdrop-filter: blur(6px);
   z-index: 70;
 }
 
@@ -419,9 +418,8 @@ label.ghost-btn input {
     max-height: 86vh;
     padding: 10px;
     gap: 10px;
-    background: rgba(6, 8, 12, 0.16);
+    background: rgba(6, 8, 12, 0.05);
     border: 1px solid rgba(195, 208, 229, 0.12);
-    backdrop-filter: blur(10px);
     transform: translate(-50%, -44%);
     opacity: 0;
     pointer-events: none;
