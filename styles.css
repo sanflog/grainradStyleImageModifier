@@ -41,41 +41,6 @@ body {
   background: radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.05), transparent 30%), #020305;
 }
 
-.mini-preview {
-  display: none;
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 188px;
-  border: 1px solid var(--line);
-  background: rgba(5, 7, 11, 0.94);
-  padding: 6px;
-  display: grid;
-  gap: 5px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.18s ease;
-  z-index: 62;
-}
-
-.mini-preview span {
-  color: #9aa2b3;
-  font: 400 10px "IBM Plex Mono", monospace;
-}
-
-#miniPreviewCanvas {
-  width: 176px;
-  height: 104px;
-  border: 1px solid #1a2029;
-  background: #080b10;
-  image-rendering: pixelated;
-}
-
-.stage.has-image .mini-preview {
-  opacity: 1;
-}
-
 .stage.dragover {
   box-shadow: inset 0 0 0 2px rgba(67, 255, 90, 0.5);
 }
@@ -271,9 +236,7 @@ label.ghost-btn input {
 .effect-radio-list {
   display: grid;
   gap: 6px;
-  padding: 7px;
-  border: 1px solid #1a2029;
-  background: #07090d;
+  padding: 0;
 }
 
 .effect-item,
@@ -443,48 +406,62 @@ label.ghost-btn input {
   }
 
   .mini-preview {
-    display: grid;
-    top: 56px;
-    width: 150px;
-  }
-
-  #miniPreviewCanvas {
-    width: 138px;
-    height: 82px;
+    display: none;
   }
 
   .right-dock {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: min(86vw, 340px);
+    left: 50%;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    width: min(94vw, 430px);
+    max-height: 86vh;
     padding: 10px;
     gap: 10px;
-    background: rgba(4, 6, 10, 0.52);
-    border-left: 1px solid var(--line);
-    transform: translateX(100%);
-    transition: transform 0.2s ease;
+    background: rgba(6, 8, 12, 0.3);
+    border: 1px solid rgba(195, 208, 229, 0.22);
+    backdrop-filter: blur(10px);
+    transform: translate(-50%, -44%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
     z-index: 120;
   }
 
   .right-dock.is-open {
-    transform: translateX(0);
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .dock-mobile-header {
     display: flex;
+    border: 1px solid rgba(205, 216, 235, 0.2);
+    background: rgba(8, 10, 16, 0.35);
   }
 
   .side-panel {
-    max-height: calc((100vh - 62px) / 2);
+    max-height: calc((86vh - 62px) / 2);
+    border: 0;
+    background: rgba(8, 11, 16, 0.24);
+    backdrop-filter: none;
+  }
+
+  .side-panel .modal-header {
+    border-bottom: 1px solid rgba(195, 208, 229, 0.2);
+    background: rgba(8, 10, 14, 0.18);
+  }
+
+  .side-panel .modal-content {
+    background: transparent;
   }
 
   .dock-overlay {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(3, 4, 6, 0.12);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
@@ -497,7 +474,7 @@ label.ghost-btn input {
   }
 
   .floating-modal.export-modal {
-    width: min(94vw, 420px);
+    width: min(94vw, 430px);
   }
 
   .stage-hint {

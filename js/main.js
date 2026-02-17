@@ -6,9 +6,6 @@
 
   const stage = document.getElementById("stage");
   const canvas = document.getElementById("previewCanvas");
-  const miniPreview = document.getElementById("miniPreview");
-  const miniPreviewCanvas = document.getElementById("miniPreviewCanvas");
-  const miniPreviewCtx = miniPreviewCanvas.getContext("2d");
   const fileInput = document.getElementById("fileInput");
 
   const effectsModal = document.getElementById("effectsModal");
@@ -58,31 +55,8 @@
     renderQueued = true;
     requestAnimationFrame((time) => {
       renderQueued = false;
-      renderFrame(time);
+      renderer.render(state.selectedEffect, state.params[state.selectedEffect], time);
     });
-  }
-
-  function renderFrame(time) {
-    renderer.render(state.selectedEffect, state.params[state.selectedEffect], time);
-    updateMiniPreview();
-  }
-
-  function updateMiniPreview() {
-    if (!renderer.hasImage() || !canvas.width || !canvas.height) {
-      return;
-    }
-
-    const targetWidth = miniPreviewCanvas.width;
-    const targetHeight = miniPreviewCanvas.height;
-    const ratio = Math.min(targetWidth / canvas.width, targetHeight / canvas.height);
-    const drawWidth = Math.max(1, Math.floor(canvas.width * ratio));
-    const drawHeight = Math.max(1, Math.floor(canvas.height * ratio));
-    const offsetX = Math.floor((targetWidth - drawWidth) / 2);
-    const offsetY = Math.floor((targetHeight - drawHeight) / 2);
-
-    miniPreviewCtx.fillStyle = "#06080d";
-    miniPreviewCtx.fillRect(0, 0, targetWidth, targetHeight);
-    miniPreviewCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, offsetX, offsetY, drawWidth, drawHeight);
   }
 
   function syncExportButtonLabel() {
@@ -138,7 +112,6 @@
       state.sourceImage = image;
       renderer.setSourceImage(image);
       stage.classList.add("has-image");
-      miniPreview.setAttribute("aria-hidden", "false");
       requestRender();
     } catch (error) {
       console.error(error);
@@ -275,7 +248,7 @@
 
   function animationLoop(time) {
     if (renderer.hasImage() && state.selectedEffect === "matrix") {
-      renderFrame(time);
+      renderer.render("matrix", state.params.matrix, time);
     }
     requestAnimationFrame(animationLoop);
   }

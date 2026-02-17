@@ -7,12 +7,6 @@
 
   function renderEffectsList(container, state, onChange) {
     container.innerHTML = "";
-    const wrap = document.createElement("div");
-    wrap.className = "effect-select-wrap";
-
-    const label = document.createElement("div");
-    label.textContent = "Effect";
-
     const list = document.createElement("div");
     list.className = "effect-radio-list";
 
@@ -38,8 +32,7 @@
       list.appendChild(item);
     });
 
-    wrap.append(label, list);
-    container.appendChild(wrap);
+    container.appendChild(list);
   }
 
   function renderSettings(container, state, handlers) {
