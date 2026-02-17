@@ -1,0 +1,83 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grainrad Style Image Modifier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="app" class="app">
+    <section id="stage" class="stage" aria-label="Image preview stage">
+      <canvas id="previewCanvas"></canvas>
+      <div id="dropOverlay" class="drop-overlay" aria-hidden="true">
+        <p>Drop image here</p>
+        <small>or use Import</small>
+      </div>
+      <div class="stage-hint">Drag and drop an image to begin</div>
+    </section>
+
+    <section id="rightDock" class="right-dock" aria-label="Effects and settings panels">
+      <header class="dock-mobile-header">
+        <span>Menu</span>
+        <button id="closeDockBtn" class="reset-link" type="button">Close</button>
+      </header>
+      <aside id="effectsModal" class="side-panel">
+        <header class="modal-header">
+          <span>- Effects</span>
+        </header>
+        <div id="effectsList" class="modal-content effects-list"></div>
+      </aside>
+
+      <aside id="settingsModal" class="side-panel">
+        <header class="modal-header">
+          <span>- Settings</span>
+          <div class="header-actions">
+            <button id="toggleSettingsBtn" class="reset-link" type="button">Min</button>
+            <button id="resetBtn" class="reset-link" type="button">Reset</button>
+          </div>
+        </header>
+        <div id="settingsBody" class="modal-content settings-body"></div>
+      </aside>
+    </section>
+    <div id="dockOverlay" class="dock-overlay" aria-hidden="true"></div>
+
+    <aside id="exportModal" class="floating-modal export-modal hidden" data-modal>
+      <header class="modal-header" data-drag-handle>
+        <span>- Export</span>
+        <button id="closeExportBtn" class="reset-link" type="button">Close</button>
+      </header>
+      <div class="modal-content export-body">
+        <div id="exportFormats" class="export-grid"></div>
+        <div id="exportStatus" class="export-status" aria-live="polite"></div>
+        <label class="export-toggle">
+          <input id="highQualityToggle" type="checkbox" />
+          <span>High quality image</span>
+        </label>
+        <button id="confirmExportBtn" class="solid-btn" type="button">Export PNG</button>
+      </div>
+    </aside>
+
+    <div class="quick-actions">
+      <label class="ghost-btn">
+        Import
+        <input id="fileInput" type="file" accept="image/*" />
+      </label>
+      <button id="openExportBtn" class="ghost-btn" type="button">Export</button>
+      <button id="openDockBtn" class="ghost-btn mobile-menu-btn" type="button">Menu</button>
+    </div>
+  </main>
+
+  <script src="js/config/effects.js"></script>
+  <script src="js/core/state.js"></script>
+  <script src="js/utils/file.js"></script>
+  <script src="js/ui/modals.js"></script>
+  <script src="js/ui/controls.js"></script>
+  <script src="js/render/renderer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
