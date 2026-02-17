@@ -13,6 +13,10 @@
   <main id="app" class="app">
     <section id="stage" class="stage" aria-label="Image preview stage">
       <canvas id="previewCanvas"></canvas>
+      <div id="miniPreview" class="mini-preview" aria-hidden="true">
+        <span>Mini Preview</span>
+        <canvas id="miniPreviewCanvas" width="176" height="104"></canvas>
+      </div>
       <div id="dropOverlay" class="drop-overlay" aria-hidden="true">
         <p>Drop image here</p>
         <small>or use Import</small>
@@ -23,7 +27,10 @@
     <section id="rightDock" class="right-dock" aria-label="Effects and settings panels">
       <header class="dock-mobile-header">
         <span>Menu</span>
-        <button id="closeDockBtn" class="reset-link" type="button">Close</button>
+        <div class="header-actions">
+          <button id="openExportDockBtn" class="reset-link" type="button">Export</button>
+          <button id="closeDockBtn" class="reset-link" type="button">Close</button>
+        </div>
       </header>
       <aside id="effectsModal" class="side-panel">
         <header class="modal-header">
@@ -44,6 +51,7 @@
       </aside>
     </section>
     <div id="dockOverlay" class="dock-overlay" aria-hidden="true"></div>
+    <div id="exportBackdrop" class="modal-backdrop hidden" aria-hidden="true"></div>
 
     <aside id="exportModal" class="floating-modal export-modal hidden" data-modal>
       <header class="modal-header" data-drag-handle>

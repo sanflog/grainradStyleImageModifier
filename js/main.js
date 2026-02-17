@@ -6,6 +6,9 @@
 
   const stage = document.getElementById("stage");
   const canvas = document.getElementById("previewCanvas");
+  const miniPreview = document.getElementById("miniPreview");
+  const miniPreviewCanvas = document.getElementById("miniPreviewCanvas");
+  const miniPreviewCtx = miniPreviewCanvas.getContext("2d");
   const fileInput = document.getElementById("fileInput");
 
   const effectsModal = document.getElementById("effectsModal");
@@ -13,6 +16,7 @@
   const exportModal = document.getElementById("exportModal");
   const rightDock = document.getElementById("rightDock");
   const dockOverlay = document.getElementById("dockOverlay");
+  const exportBackdrop = document.getElementById("exportBackdrop");
 
   const effectsList = document.getElementById("effectsList");
   const settingsBody = document.getElementById("settingsBody");
@@ -20,6 +24,7 @@
   const toggleSettingsBtn = document.getElementById("toggleSettingsBtn");
 
   const openExportBtn = document.getElementById("openExportBtn");
+  const openExportDockBtn = document.getElementById("openExportDockBtn");
   const openDockBtn = document.getElementById("openDockBtn");
   const closeDockBtn = document.getElementById("closeDockBtn");
   const closeExportBtn = document.getElementById("closeExportBtn");
@@ -53,8 +58,48 @@
     renderQueued = true;
     requestAnimationFrame((time) => {
       renderQueued = false;
-      renderer.render(state.selectedEffect, state.params[state.selectedEffect], time);
+      renderFrame(time);
     });
+  }
+
+  function renderFrame(time) {
+    renderer.render(state.selectedEffect, state.params[state.selectedEffect], time);
+    updateMiniPreview();
+  }
+
+  function updateMiniPreview() {
+    if (!renderer.hasImage() || !canvas.width || !canvas.height) {
+      return;
+    }
+
+    const targetWidth = miniPreviewCanvas.width;
+    const targetHeight = miniPreviewCanvas.height;
+    const ratio = Math.min(targetWidth / canvas.width, targetHeight / canvas.height);
+    const drawWidth = Math.max(1, Math.floor(canvas.width * ratio));
+    const drawHeight = Math.max(1, Math.floor(canvas.height * ratio));
+    const offsetX = Math.floor((targetWidth - drawWidth) / 2);
+    const offsetY = Math.floor((targetHeight - drawHeight) / 2);
+
+    miniPreviewCtx.fillStyle = "#06080d";
+    miniPreviewCtx.fillRect(0, 0, targetWidth, targetHeight);
+    miniPreviewCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, offsetX, offsetY, drawWidth, drawHeight);
+  }
+
+  function syncExportButtonLabel() {
+    confirmExportBtn.textContent = state.selectedExportFormat === "gif" ? "Export GIF" : "Export PNG";
+  }
+
+  function openExportModal() {
+    exportModal.classList.remove("hidden");
+    exportBackdrop.classList.remove("hidden");
+    setExportStatus("");
+    syncExportButtonLabel();
+  }
+
+  function closeExportModal() {
+    exportModal.classList.add("hidden");
+    exportBackdrop.classList.add("hidden");
+    setExportStatus("");
   }
 
   function renderPanels() {
@@ -65,9 +110,6 @@
       }
       renderPanels();
       requestRender();
-      if (isMobileDock()) {
-        closeDock();
-      }
     });
 
     renderSettings(settingsBody, state, {
@@ -86,6 +128,8 @@
       state.selectedExportFormat = formatId;
       renderPanels();
     });
+
+    syncExportButtonLabel();
   }
 
   async function applyFile(file) {
@@ -94,6 +138,7 @@
       state.sourceImage = image;
       renderer.setSourceImage(image);
       stage.classList.add("has-image");
+      miniPreview.setAttribute("aria-hidden", "false");
       requestRender();
     } catch (error) {
       console.error(error);
@@ -140,15 +185,11 @@
     toggleSettingsBtn.textContent = minimized ? "Max" : "Min";
   });
 
-  openExportBtn.addEventListener("click", () => {
-    exportModal.classList.remove("hidden");
-    setExportStatus("");
-  });
+  openExportBtn.addEventListener("click", openExportModal);
 
-  closeExportBtn.addEventListener("click", () => {
-    exportModal.classList.add("hidden");
-    setExportStatus("");
-  });
+  openExportDockBtn.addEventListener("click", openExportModal);
+
+  closeExportBtn.addEventListener("click", closeExportModal);
 
   openDockBtn.addEventListener("click", () => {
     openDock();
@@ -160,6 +201,14 @@
 
   dockOverlay.addEventListener("click", () => {
     closeDock();
+  });
+
+  exportBackdrop.addEventListener("click", closeExportModal);
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !exportModal.classList.contains("hidden")) {
+      closeExportModal();
+    }
   });
 
   confirmExportBtn.addEventListener("click", () => {
@@ -226,7 +275,7 @@
 
   function animationLoop(time) {
     if (renderer.hasImage() && state.selectedEffect === "matrix") {
-      renderer.render("matrix", state.params.matrix, time);
+      renderFrame(time);
     }
     requestAnimationFrame(animationLoop);
   }
