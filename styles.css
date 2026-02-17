@@ -438,19 +438,19 @@ label.ghost-btn input {
   .dock-mobile-header {
     display: flex;
     border: 1px solid rgba(205, 216, 235, 0.12);
-    background: rgba(8, 10, 16, 0.18);
+    background: transparent;
   }
 
   .side-panel {
     max-height: calc((86vh - 62px) / 2);
     border: 0;
-    background: rgba(8, 11, 16, 0.12);
+    background: transparent;
     backdrop-filter: none;
   }
 
   .side-panel .modal-header {
     border-bottom: 1px solid rgba(195, 208, 229, 0.12);
-    background: rgba(8, 10, 14, 0.1);
+    background: transparent;
   }
 
   .side-panel .modal-content {
@@ -461,7 +461,7 @@ label.ghost-btn input {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(3, 4, 6, 0.07);
+    background: transparent;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
