@@ -42,6 +42,7 @@ body {
 }
 
 .mini-preview {
+  display: none;
   position: absolute;
   top: 12px;
   left: 50%;
@@ -442,6 +443,7 @@ label.ghost-btn input {
   }
 
   .mini-preview {
+    display: grid;
     top: 56px;
     width: 150px;
   }
