@@ -418,8 +418,6 @@ label.ghost-btn input {
     gap: 10px;
     background: rgba(6, 8, 12, 0.05);
     border: 1px solid rgba(195, 208, 229, 0.12);
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
     transform: translate(-50%, -44%);
     opacity: 0;
     pointer-events: none;
@@ -443,8 +441,6 @@ label.ghost-btn input {
     max-height: calc((86vh - 62px) / 2);
     border: 0;
     background: transparent;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
   }
 
   .side-panel .modal-header {
