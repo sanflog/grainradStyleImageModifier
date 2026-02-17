@@ -211,16 +211,17 @@ label.ghost-btn input {
 }
 
 .floating-modal {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  width: 290px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: min(92vw, 420px);
   max-width: min(92vw, 440px);
-  max-height: 78vh;
+  max-height: 85vh;
   border: 1px solid var(--line);
   background: var(--panel);
   backdrop-filter: blur(5px);
   overflow: hidden;
+  transform: translate(-50%, -50%);
   z-index: 130;
 }
 
@@ -363,33 +364,43 @@ label.ghost-btn input {
 
 .export-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7px;
+  grid-template-columns: 1fr;
+  gap: 8px;
 }
 
-.export-card {
-  text-align: left;
+.export-format-row {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  align-items: center;
+  gap: 8px;
   border: 1px solid #1a2029;
   background: #080b10;
-  padding: 8px;
+  padding: 8px 9px;
   color: #dde1ea;
   font: 400 12px "IBM Plex Mono", monospace;
   cursor: pointer;
 }
 
-.export-card small {
-  display: block;
-  margin-top: 3px;
+.export-format-row input {
+  accent-color: #d7dbe4;
+}
+
+.export-format-text {
+  display: grid;
+  gap: 3px;
+}
+
+.export-format-text strong {
+  font: 500 12px "IBM Plex Mono", monospace;
+}
+
+.export-format-text small {
   color: #747c8d;
 }
 
-.export-card.disabled {
+.export-format-row.disabled {
   opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.export-card.active {
-  outline: 1px solid #d5dae4;
+  cursor: default;
 }
 
 .export-toggle {
@@ -484,14 +495,7 @@ label.ghost-btn input {
   }
 
   .floating-modal.export-modal {
-    position: fixed;
-    left: 50% !important;
-    top: 50% !important;
-    right: auto;
-    bottom: auto;
     width: min(94vw, 420px);
-    max-height: 85vh;
-    transform: translate(-50%, -50%);
   }
 
   .stage-hint {

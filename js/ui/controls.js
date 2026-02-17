@@ -184,30 +184,40 @@
       const isEnabled =
         format.id === "png" ||
         (format.id === "gif" && state.selectedEffect === "matrix" && !isFileProtocol);
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "export-card";
-      button.textContent = format.label;
+      const row = document.createElement("label");
+      row.className = "export-format-row";
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "export-format";
+      radio.value = format.id;
+      radio.checked = state.selectedExportFormat === format.id;
+
+      const textWrap = document.createElement("span");
+      textWrap.className = "export-format-text";
+
+      const title = document.createElement("strong");
+      title.textContent = format.label;
 
       const ext = document.createElement("small");
       ext.textContent = format.ext;
-      button.appendChild(ext);
+      textWrap.append(title, ext);
+      row.append(radio, textWrap);
 
       if (!isEnabled) {
-        button.classList.add("disabled");
-        button.disabled = true;
+        row.classList.add("disabled");
+        radio.disabled = true;
         if (format.id === "gif" && isFileProtocol) {
-          button.title = "GIF export is not available on file://. Open via http(s).";
+          row.title = "GIF export is not available on file://. Open via http(s).";
         }
       } else {
-        button.addEventListener("click", () => onSelect(format.id));
+        radio.addEventListener("change", () => {
+          if (radio.checked) {
+            onSelect(format.id);
+          }
+        });
       }
-
-      if (state.selectedExportFormat === format.id) {
-        button.classList.add("active");
-      }
-
-      container.appendChild(button);
+      container.appendChild(row);
     });
   }
 
