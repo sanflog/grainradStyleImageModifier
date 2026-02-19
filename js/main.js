@@ -6,6 +6,7 @@
 
   const stage = document.getElementById("stage");
   const canvas = document.getElementById("previewCanvas");
+  const dropOverlay = document.getElementById("dropOverlay");
   const fileInput = document.getElementById("fileInput");
 
   const effectsModal = document.getElementById("effectsModal");
@@ -135,6 +136,18 @@
       await applyFile(file);
     }
     fileInput.value = "";
+  });
+
+  function openImportPicker() {
+    fileInput.click();
+  }
+
+  dropOverlay.addEventListener("click", openImportPicker);
+  dropOverlay.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openImportPicker();
+    }
   });
 
   bindDropZone(stage, {
